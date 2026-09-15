@@ -1,0 +1,106 @@
+.logout-container{
+    min-height:70vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+}
+
+.logout-card{
+    width:100%;
+    max-width:450px;
+    background:#fff;
+    border-radius:16px;
+    padding:30px;
+    text-align:center;
+    box-shadow:0 4px 20px rgba(0,0,0,.08);
+}
+
+.logout-icon{
+    font-size:60px;
+    margin-bottom:15px;
+}
+
+.logout-card h2{
+    margin-bottom:10px;
+}
+
+.logout-card p{
+    color:#666;
+    margin-bottom:25px;
+}
+
+.account-preview{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    background:#f8f9fa;
+    padding:15px;
+    border-radius:12px;
+    margin-bottom:25px;
+    text-align:left;
+}
+
+.profile-preview{
+    width:60px;
+    height:60px;
+    border-radius:50%;
+    object-fit:cover;
+}
+
+.account-preview h4{
+    margin-bottom:4px;
+}
+
+.account-preview span{
+    color:#666;
+    font-size:14px;
+}
+
+.logout-actions{
+    display:flex;
+    gap:12px;
+}
+
+.cancel-btn,
+.logout-btn{
+    flex:1;
+    padding:12px;
+    border:none;
+    border-radius:10px;
+    text-decoration:none;
+    font-size:15px;
+    cursor:pointer;
+    text-align:center;
+}
+
+.cancel-btn{
+    background:#e9ecef;
+    color:#333;
+}
+
+.logout-btn{
+    background:#dc3545;
+    color:white;
+}
+
+.logout-btn:hover{
+    opacity:.9;
+}
+
+.cancel-btn:hover{
+    background:#dee2e6;
+}
+
+.dark-mode .logout-card{
+    background:#1e1e1e;
+}
+
+.dark-mode .account-preview{
+    background:#2a2a2a;
+}
+
+.dark-mode .cancel-btn{
+    background:#333;
+    color:white;
+}

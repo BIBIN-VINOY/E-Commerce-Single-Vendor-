@@ -1,0 +1,86 @@
+{% load static %}
+<header class="top-navbar">
+   
+    <div class="left-section">
+    {% if user.profile_image %}
+        <a href="{% url 'user_profile' %}">
+            <img
+                src="{{ user.profile_image.url }}"
+                alt="Profile"
+                class="profile-image"
+            >
+        </a>
+    {% else %}
+        <a href="{% url 'user_profile' %}">
+            <img
+                src="{% static 'images/default-profile.png' %}"
+                alt="Profile"
+                class="profile-image"
+            >
+        </a>
+    {% endif %}
+
+    </div>
+
+    <div class="center-section">
+        <h2 class="logo">MyStore</h2>
+    </div>
+
+    <div class="right-section">
+        {% if user.is_authenticated %}
+        <div class="notification-container">
+
+            <button class="icon-btn">
+                🔔
+            </button>
+
+            <div class="notification-dropdown">
+                <button class="dropdown-close">&times;</button>
+
+                <p>Order #1001 Shipped</p>
+
+                <p>Order #1002 Delivered</p>
+
+                <p>50% Discount Available</p>
+
+            </div>
+
+        </div>
+        {% endif %}
+        <div class="settings-container">
+
+            <button class="icon-btn settings-btn">
+                ⚙️
+            </button>
+
+            <div class="settings-dropdown">
+                <button class="dropdown-close">&times;</button>
+
+                <a href="{% url 'account_settings' %}">
+                    Account Settings
+                </a>
+
+                <a href="{% url 'address' %}">
+                     Address
+                </a>
+
+                <a href="#">
+                    Payment Methods
+                </a>
+
+                <button id="darkModeToggle">
+                    Dark Mode
+                </button>
+
+            </div>
+
+        </div>
+    {% if user.is_authenticated %}
+        <a href="{% url 'cart:cart' %}" class="icon-btn">
+            🛒
+        </a>
+    {% endif %}
+
+    </div>
+
+</header>

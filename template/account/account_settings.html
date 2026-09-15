@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+Account Settings
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/account_settings.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="settings-page">
+
+    <div class="settings-header">
+    {% if user.profile_image %}
+
+        <img
+            src="{{user.profile_image.url}}"
+            alt="Profile"
+            class="settings-profile-image"
+        >
+    {% else %}
+        <img
+            src="{% static 'images/default-profile.jpg' %}"
+            alt="Profile"
+            class="settings-profile-image"
+        >
+    {% endif %}
+
+        <h2>{{user.username}}</h2>
+
+        <p>{{user.email}}</p>
+
+    </div>
+
+    <div class="settings-card">
+
+        <a href="{% url 'editProfile' %}" class="setting-item">
+
+            <div>
+                <h3>Edit Profile</h3>
+                <p>Update personal information</p>
+            </div>
+
+            <span>›</span>
+
+        </a>
+
+        <a href="{% url 'reset_password' %}" class="setting-item">
+
+            <div>
+                <h3>Change Password</h3>
+                <p>Update account password</p>
+            </div>
+
+            <span>›</span>
+
+        </a>
+
+        <a href="{% url 'signin' %}" class="setting-item">
+
+            <div>
+                <h3>Add New Account</h3>
+                <p>Register another account</p>
+            </div>
+
+            <span>›</span>
+
+        </a>
+
+        <a href="{% url 'logout_confirmation' %}" class="setting-item">
+
+            <div>
+                <h3>Logout</h3>
+                <p>Sign out from current account</p>
+            </div>
+
+            <span>›</span>
+
+        </a>
+
+        <a href="{% url 'delete_account' %}" class="setting-item danger">
+
+            <div>
+                <h3>Delete Profile</h3>
+                <p>Permanently remove account</p>
+            </div>
+
+            <span>›</span>
+
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}

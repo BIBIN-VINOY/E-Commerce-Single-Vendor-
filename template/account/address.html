@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+Addresses
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/address.css' %}">
+{% endblock %}
+
+{% block content %}
+
+{% if home_address or office_address %}
+  <div class="address-page">
+
+    <div class="page-header">
+        <h2>Saved Addresses</h2>
+        <p>Manage your delivery locations.</p>
+    </div>
+
+    <!-- Home Address -->
+    {% if home_address %}
+    <div class="address-card">
+
+        <div class="address-type">
+            🏠 Home Address
+        </div>
+
+        <div class="address-content">
+            <p><strong>{{ home_address.full_name }}</strong></p>
+            <p>{{ home_address.address_line_1 }}</p>
+            <p>{{ home_address.address_line_2 }}</p>
+            <p>{{ home_address.city }}, {{ home_address.state }}</p>
+            <p>{{ home_address.postal_code }}</p>
+            <p>{{ home_address.country }}</p>
+        </div>
+
+        {% if home_address %}
+            <a href="{% url 'edit_address' home_address.id %}" class="edit-btn">
+                Edit
+            </a>
+        
+        <a href="{% url 'delete_address' home_address.id %}" class="delete-btn">
+            Delete
+        </a>
+        {% endif %}
+
+    </div>
+
+    {% else %}
+
+    <div class="empty-address-card">
+        <h4>🏠 Home Address</h4>
+
+        <a href="{% url 'add_address' %}?type=home" class="add-btn">
+            + Add Home Address
+        </a>
+    </div>
+
+    {% endif %}
+
+    <!-- Office Address -->
+    {% if office_address %}
+    <div class="address-card">
+
+        <div class="address-type">
+            🏢 Office Address
+        </div>
+
+        <div class="address-content">
+            <p><strong>{{ office_address.full_name }}</strong></p>
+            <p>{{ office_address.address_line_1 }}</p>
+            <p>{{ office_address.address_line_2 }}</p>
+            <p>{{ office_address.city }}, {{ office_address.state }}</p>
+            <p>{{ office_address.postal_code }}</p>
+            <p>{{ office_address.country }}</p>
+        </div>
+
+        
+
+        {% if office_address %}
+            <a href="{% url 'edit_address' office_address.id %}" class="edit-btn">
+                Edit
+            </a>
+        
+
+        <a href="{% url 'delete_address' office_address.id %}" class="delete-btn">
+            Delete
+        </a>
+        {% endif %}
+
+    </div>
+
+    {% else %}
+
+    <div class="empty-address-card">
+        <h4>🏢 Office Address</h4>
+
+        <a href="{% url 'add_address' %}?type=office" class="add-btn">
+            + Add Office Address
+        </a>
+    </div>
+
+    {% endif %}
+
+</div>
+{% else %}
+    <div class="empty-address">
+
+        <h3>No Saved Addresses</h3>
+
+        <p>
+            Add a Home or Office address
+            for faster checkout.
+        </p>
+
+        <a href="{% url 'add_address' %}"
+           class="add-btn">
+
+            + Add Address
+
+        </a>
+
+    </div>
+
+{% endif %}
+
+{% endblock %}

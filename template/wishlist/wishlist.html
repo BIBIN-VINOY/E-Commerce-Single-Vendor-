@@ -1,0 +1,171 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}My Wishlist{% endblock %}
+
+{% block extra_css %}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'css/wishlist.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="wl-page">
+
+  <div id="wl-toast" class="wl-toast" role="status" aria-live="polite" hidden></div>
+
+  <!-- Search -->
+  <div class="wl-search" role="search">
+    <svg class="wl-search__icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/>
+      <line x1="16.65" y1="16.65" x2="21" y2="21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+    <input
+      type="text"
+      id="wl-search-input"
+      class="wl-search__input"
+      placeholder="Search your wishlist"
+      autocomplete="off">
+  </div>
+
+  <!-- Header -->
+  <div class="wl-header">
+    <h1 class="wl-header__title">
+      <span class="wl-heart" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 21s-7.1-4.35-9.9-8.4C.4 9.5 1.4 5.9 4.5 4.7c2-.78 4.1-.1 5.3 1.5.4.5.8 1 1.2 1.5.4-.5.8-1 1.2-1.5 1.2-1.6 3.3-2.28 5.3-1.5 3.1 1.2 4.1 4.8 2.4 7.9C19.1 16.65 12 21 12 21z"/>
+        </svg>
+      </span>
+      My Wishlist
+      <span class="wl-header__count">
+        ({{ wishlist_items|length }} item{{ wishlist_items|length|pluralize }})
+      </span>
+    </h1>
+  </div>
+
+  {% if wishlist_items %}
+
+  <div class="wl-grid" id="wl-grid">
+
+    {% for item in wishlist_items %}
+
+    <article class="wl-card"
+             data-item-id="{{ item.id }}"
+             data-name="{{ item.variant.product.name|lower }}">
+
+      <div class="wl-card__tag"></div>
+
+      <div class="wl-card__media">
+        {% if item.variant.primary_image_url %}
+          <a href="{% url 'products:product_detail' item.variant.product.slug %}">
+          <img src="{{ item.variant.primary_image_url }}"
+               alt="{{ item.variant.product.name }}"></a>
+        {% else %}
+          <div class="wl-card__media-placeholder">
+            IMAGE
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="wl-card__body">
+
+        <h2 class="wl-card__name">
+          {{ item.variant.product.name }}
+        </h2>
+
+        <p class="wl-card__price">
+          ₹{{ item.variant.price }}
+        </p>
+
+        <p class="wl-card__color">
+          Color: {{ item.variant.color.name }}
+        </p>
+
+        <p class="wl-card__stock {% if item.variant.stock == 0 %}wl-card__stock--out{% endif %}">
+          {% if item.variant.stock > 0 %}
+            In Stock ({{ item.variant.stock }} available)
+          {% else %}
+            Out of Stock
+          {% endif %}
+        </p>
+
+      </div>
+
+      <div class="wl-card__actions">
+
+        {% if item.variant.stock > 0 %}
+
+          {% if item.variant.id in cart_variant_ids %}
+
+              <a href="{% url 'cart:cart' %}" class="wl-btn wl-btn--primary">
+                  Go to Cart 🛒
+              </a>
+
+          {% else %}
+
+              <button
+                  type="button"
+                  class="wl-btn wl-btn--primary addToCartBtn js-add-to-cart"
+                  data-variant-id="{{ item.variant.id }}"
+                  data-url="{% url 'cart:add_to_cart' item.variant.id %}"
+                  data-cart-url="{% url 'cart:cart' %}">
+                  Add to Cart 🛒
+              </button>
+
+          {% endif %}
+        {% else %}
+          <button
+            type="button"
+            class="wl-btn wl-btn--disabled"
+            disabled>
+            Out of Stock
+          </button>
+        {% endif %}
+
+        <form method="post" action="{% url 'wishlist:wishlist_remove' item.variant.id %}">
+          {% csrf_token %}
+          <button type="submit" class="wl-btn wl-btn--ghost">
+            Remove
+          </button>
+        </form>
+
+      </div>
+
+    </article>
+
+    {% endfor %}
+
+  </div>
+
+  {% else %}
+
+  <div class="wl-empty">
+
+    <div class="wl-empty__icon">
+      <svg viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 21s-7.1-4.35-9.9-8.4C.4 9.5 1.4 5.9 4.5 4.7c2-.78 4.1-.1 5.3 1.5.4.5.8 1 1.2 1.5.4-.5.8-1 1.2-1.5 1.2-1.6 3.3-2.28 5.3-1.5 3.1 1.2 4.1 4.8 2.4 7.9C19.1 16.65 12 21 12 21z"/>
+      </svg>
+    </div>
+
+    <p class="wl-empty__title">
+      Your wishlist is empty.
+    </p>
+
+    <p class="wl-empty__subtitle">
+      Save products you like and they'll appear here.
+    </p>
+
+    <a href="{% url 'user_dashboard' %}" class="wl-btn wl-btn--primary">
+      Continue Shopping
+    </a>
+
+  </div>
+
+  {% endif %}
+
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/wishlist.js' %}"></script>
+{% endblock %}

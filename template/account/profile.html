@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+Profile
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/profile.css' %}">
+<link rel="stylesheet" href="{% static 'css/address.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="profile-container">
+
+    <div class="profile-card">
+     {% if user.profile_image %}
+        <img
+            src="{{ user.profile_image.url }}"
+            alt="Profile"
+            class="profile-image-large"
+        >
+     {% else %}
+        <img
+            src="{% static 'images/default-profile.png' %}"
+            alt="Profile"
+            class="profile-image-large"
+        >
+     {% endif %}
+
+        <h2>{{profile.username}}</h2>
+
+        <p class="profile-email">
+            {{profile.email}}
+        </p>
+
+    </div>
+
+    <div class="info-card">
+
+        <h3>Personal Information</h3>
+
+        <div class="info-row">
+            <span>Username</span>
+            <strong>{{profile.username}}</strong>
+        </div>
+
+        <div class="info-row">
+            <span>Email</span>
+            <strong>{{profile.email}}</strong>
+        </div>
+
+        <div class="info-row">
+            <span>Phone</span>
+            <strong>{{profile.phone}}</strong>
+        </div>
+
+        <div class="info-row">
+            <span>Joined</span>
+            <strong>{{ user.date_joined|date:"F j, Y" }}</strong>
+        </div>
+
+    </div>
+{% if home_address or office_address %}
+    {% if home_address %}
+    <div class="address-card">
+
+        <div class="address-type">
+            🏠 Home Address
+        </div>
+
+        <div class="address-content">
+            <p><strong>{{ home_address.full_name }}</strong></p>
+            <p>{{ home_address.address_line_1 }}</p>
+            <p>{{ home_address.address_line_2 }}</p>
+            <p>{{ home_address.city }}, {{ home_address.state }}</p>
+            <p>{{ home_address.postal_code }}</p>
+            <p>{{ home_address.country }}</p>
+        </div>
+    </div>
+    {% endif %}
+
+    
+    <!-- Office Address -->
+    {% if office_address %}
+    <div class="address-card">
+
+        <div class="address-type">
+            🏢 Office Address
+        </div>
+
+        <div class="address-content">
+            <p><strong>{{ office_address.full_name }}</strong></p>
+            <p>{{ office_address.address_line_1 }}</p>
+            <p>{{ office_address.address_line_2 }}</p>
+            <p>{{ office_address.city }}, {{ office_address.state }}</p>
+            <p>{{ office_address.postal_code }}</p>
+            <p>{{ office_address.country }}</p>
+    </div>
+    {% endif %}
+
+        
+
+
+
+{% else %}
+        <div class="empty-address">
+
+        <h3>No Saved Addresses</h3>
+
+        <p>
+            Add a Home or Office address
+            for faster checkout.
+        </p>
+
+        <a href="{% url 'address' %}"
+           class="add-btn">
+
+            + Add Address
+
+        </a>
+
+        </div>
+
+{% endif %}
+
+    </div>
+
+    {% endblock %}

@@ -1,0 +1,266 @@
+/* =========================
+   SEARCH
+========================= */
+
+.search-form {
+    display: flex;
+    gap: 10px;
+    margin: 24px 24px 10px;
+}
+
+.search-input {
+    flex: 1;
+    height: 44px;
+    padding: 0 16px;
+
+    border: 1px solid #d5d5d5;
+    border-radius: 4px;
+
+    background: #fff;
+    font-size: 15px;
+    outline: none;
+}
+
+.search-input:focus {
+    border-color: #2874f0;
+}
+
+.search-button {
+    height: 44px;
+    padding: 0 22px;
+
+    border: none;
+    border-radius: 4px;
+
+    background: #2874f0;
+    color: white;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+
+/* =========================
+   FEATURED PRODUCTS
+========================= */
+
+.featured-products-section {
+    padding: 16px 24px 30px;
+}
+
+.section-title {
+    margin: 0 0 16px;
+
+    font-size: 22px;
+    font-weight: 600;
+    color: #212121;
+}
+
+
+/* =========================
+   PRODUCT GRID
+========================= */
+
+.product-grid {
+    display: grid;
+
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+
+    gap: 16px;
+}
+
+
+/* =========================
+   PRODUCT CARD
+========================= */
+
+.product-card-link {
+    display: block;
+
+    text-decoration: none;
+    color: inherit;
+}
+
+.product-card {
+    background: #fff;
+
+    border: 1px solid #e5e5e5;
+    border-radius: 4px;
+
+    overflow: hidden;
+
+    transition:
+        box-shadow 0.2s ease,
+        transform 0.2s ease;
+}
+
+.product-card:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 4px 12px rgba(0, 0, 0, 0.10);
+}
+
+
+/* =========================
+   PRODUCT IMAGE
+========================= */
+
+.product-card-image {
+    width: 100%;
+    height: 210px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #fff;
+
+    padding: 12px;
+}
+
+.product-card-image img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+
+    display: block;
+}
+
+.product-card-image .no-image {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #f7f7f7;
+
+    color: #999;
+    font-size: 13px;
+}
+
+.product-description {
+    white-space: pre-line;
+    line-height: 1.7;
+}
+
+
+/* =========================
+   PRODUCT INFORMATION
+========================= */
+
+.product-card-info {
+    padding: 12px 14px 14px;
+
+    border-top: 1px solid #f0f0f0;
+}
+
+.product-card-name {
+    margin: 0 0 8px;
+
+    font-size: 15px;
+    font-weight: 500;
+
+    color: #212121;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.product-card-price {
+    margin: 0;
+
+    font-size: 17px;
+    font-weight: 600;
+
+    color: #212121;
+}
+
+.product-information {
+    margin-top: 30px;
+}
+
+.product-information h2 {
+    font-size: 20px;
+    margin-bottom: -17px;
+}
+.product-colors h2 {
+    font-size: 20px;
+    margin-bottom: -17px;
+}
+.product-colors button {
+    margin-bottom: -17px;
+}
+
+.product-description {
+    white-space: pre-line;
+    line-height: 1.7;
+    color: #444;
+}
+
+
+/* =========================
+   EMPTY STATE
+========================= */
+
+.no-products {
+    color: #777;
+    font-size: 14px;
+}
+
+
+/* =========================
+   TABLET
+========================= */
+
+@media (max-width: 900px) {
+
+    .product-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 650px) {
+
+    .featured-products-section {
+        padding: 14px 12px 25px;
+    }
+
+    .section-title {
+        font-size: 19px;
+    }
+
+    .product-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+    }
+
+    .product-card-image {
+        height: 170px;
+    }
+
+    .product-card-info {
+        padding: 9px 10px 11px;
+    }
+
+    .product-card-name {
+        font-size: 13px;
+    }
+
+    .product-card-price {
+        font-size: 15px;
+    }
+
+}

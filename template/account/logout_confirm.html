@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+Logout
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/logout_confirm.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="logout-container">
+
+    <div class="logout-card">
+
+        <div class="logout-icon">
+            🚪
+        </div>
+
+        <h2>Logout Account?</h2>
+
+        <p>
+            Are you sure you want to logout from your account?
+        </p>
+
+        <div class="account-preview">
+
+            <img
+                src="{% static 'images/default-profile.png' %}"
+                alt="Profile"
+                class="profile-preview"
+            >
+
+            <div>
+                <h4>{{user.username}}</h4>
+                <span>{{user.email}}</span>
+            </div>
+
+        </div>
+
+        <div class="logout-actions">
+
+            <a href="{% url 'account_settings' %}" class="cancel-btn">
+                Cancel
+            </a>
+
+            <form method="POST">
+                {% csrf_token %}
+
+                <button type="submit" class="logout-btn">
+                    Logout
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

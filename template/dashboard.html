@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Home - MyStore{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<main class="user-dashboard">
+
+     <!-- Search Bar -->
+    <section class="search-bar-section">
+
+        <form action="{% url 'products:product_search' %}" method="get" class="search-form"> 
+
+            <input
+                type="text"
+                name="q"
+                placeholder="Search products..."
+                value="{{ request.GET.q }}"
+                class="search-input"
+            >
+
+            <button type="submit" class="search-button">
+                Search
+            </button>
+
+        </form>
+
+    </section>
+
+
+    <!-- Featured Products -->
+    <section class="featured-products-section">
+
+        <h2 class="section-title">Featured Products</h2>
+
+        {% if featured_products %}
+
+            <div class="product-grid">
+
+                {% for product in featured_products %}
+
+                    <a href="{% url 'products:product_detail' product.slug %}" class="product-card-link">
+
+                        <div class="product-card">
+
+                            <div class="product-card-image">
+
+                                {% with variant=product.variants.first %}
+
+                                    {% if variant and variant.images.first %}
+
+                                        <img
+                                            src="{{ variant.images.first.image.url }}"
+                                            alt="{{ product.name }}"
+                                        >
+
+                                    {% else %}
+
+                                        <div class="no-image">
+                                            No Image
+                                        </div>
+
+                                    {% endif %}
+
+                                {% endwith %}
+
+                            </div>
+
+                            <div class="product-card-info">
+
+                                <p class="product-card-name">{{ product.name }}</p>
+
+                                <p class="product-card-price">₹{{ product.price }}</p>
+
+                            </div>
+
+                        </div>
+
+                    </a>
+
+                {% endfor %}
+
+            </div>
+
+        {% else %}
+
+            <p class="no-products">No featured products available right now.</p>
+
+        {% endif %}
+
+    </section>
+
+</main>
+
+{% endblock %}

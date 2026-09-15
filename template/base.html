@@ -1,0 +1,46 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>{% block title %} MyStore {% endblock %}</title>
+
+    <link rel="stylesheet" href="{% static 'css/base.css' %}" />
+
+    {% block extra_css %} {% endblock %}
+  </head>
+  <body>
+    {% include 'includes/navbar.html' %}
+
+    <main class="main-content">
+      {% if messages %}
+      <div class="messages-container" aria-live="polite">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}" role="alert">
+          <span>{{ message }}</span>
+
+          <button
+            type="button"
+            class="close-btn"
+            aria-label="Close message"
+            onclick="this.closest('.alert').remove()"
+          >
+            &times;
+          </button>
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %} 
+      {% block content %} 
+      {% endblock %}
+    </main>
+
+    {% include 'includes/bottom_nav.html' %}
+
+    <script src="{% static 'js/base.js' %}"></script>
+
+    {% block extra_js %} {% endblock %}
+  </body>
+</html>

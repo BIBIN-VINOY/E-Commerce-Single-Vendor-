@@ -1,0 +1,209 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}My Cart{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/cart.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="cart-container">
+
+    <h1 class="cart-title">
+        Shopping Cart
+        <span id="cart-count">
+            ({{ cart_items|length }} item{{ cart_items|length|pluralize }})
+        </span>
+    </h1>
+
+    {% if cart_items %}
+
+    <div class="cart-layout">
+
+        <!-- LEFT -->
+
+        <div class="cart-items">
+
+            {% for item in cart_items %}
+
+            <div class="cart-card" id="cart-item-{{ item.variant.id }}">
+
+                <div class="cart-image">
+
+                    <a href="{% url 'products:product_detail' item.variant.product.slug %}">
+                        <img
+                            src="{{ item.variant.primary_image_url }}"
+                            alt="{{ item.variant.product.name }}">
+                    </a>
+
+                </div>
+
+                <div class="cart-details">
+
+                    <h2>
+                        <a href="{% url 'products:product_detail' item.variant.product.slug %}">
+                            {{ item.variant.product.name }}
+                        </a>
+                    </h2>
+
+                    <p>
+                        <strong>Color:</strong>
+                        {{ item.variant.color.name }}
+                    </p>
+
+                    <p>
+                        <strong>Price:</strong>
+                        ₹{{ item.variant.price }}
+                    </p>
+
+                    <p class="item-subtotal">
+                        <strong>Subtotal:</strong>
+                        ₹<span>{{ item.subtotal }}</span>
+                    </p>
+
+                    {% if item.variant.stock > 0 %}
+                        <span class="stock in-stock">
+                            In Stock
+                        </span>
+                    {% else %}
+                        <span class="stock out-stock">
+                            Out of Stock
+                        </span>
+                    {% endif %}
+
+                </div>
+
+                <div class="cart-actions">
+
+                    <div class="quantity-box">
+
+                        <button
+                            type="button"
+                            class="qty-btn decrease-btn"
+                            data-url="{% url 'cart:decrease_quantity' item.variant.id %}">
+                            −
+                        </button>
+
+                        <span class="item-quantity">
+                            {{ item.quantity }}
+                        </span>
+
+                        <button
+                            type="button"
+                            class="qty-btn increase-btn"
+                            data-url="{% url 'cart:increase_quantity' item.variant.id %}">
+                            +
+                        </button>
+
+                    </div>
+
+                    <form
+                        class="remove-form"
+                        method="post"
+                        action="{% url 'cart:remove_from_cart' item.variant.id %}">
+
+                        {% csrf_token %}
+
+                        <button
+                            type="submit"
+                            class="remove-btn">
+
+                            Remove
+
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+        <!-- RIGHT -->
+
+        <div class="cart-summary">
+
+            <h2>Order Summary</h2>
+
+            <div class="summary-row">
+
+                <span>Total Items</span>
+
+                <span id="summary-count">
+                    {{ cart_items|length }}
+                </span>
+
+            </div>
+
+            <div class="summary-row">
+
+                <span>Subtotal</span>
+
+                <span id="cart-subtotal">
+                    ₹{{ total }}
+                </span>
+
+            </div>
+
+            <div class="summary-row">
+
+                <span>Shipping</span>
+
+                <span>FREE</span>
+
+            </div>
+
+            <hr>
+
+            <div class="summary-row total">
+
+                <span>Total</span>
+
+                <span id="cart-total">
+                    ₹{{ total }}
+                </span>
+
+            </div>
+
+            <button class="checkout-btn">
+
+                Proceed to Checkout
+
+            </button>
+
+        </div>
+
+    </div>
+
+    {% else %}
+
+    <div class="empty-cart">
+
+        <h2>Your cart is empty</h2>
+
+        <p>Add products to continue shopping.</p>
+
+        <a
+            href="{% url 'user_dashboard' %}"
+            class="shop-btn">
+
+            Continue Shopping
+
+        </a>
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/cart.js' %}"></script>
+{% endblock %}
