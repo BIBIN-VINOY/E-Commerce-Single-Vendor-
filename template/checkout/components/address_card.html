@@ -1,0 +1,58 @@
+<label class="address-card">
+
+    <input
+        type="radio"
+        name="address_id"
+        value="{{ address.id }}"
+        {% if address.is_default %}checked{% endif %}
+    >
+
+    <div class="address-content">
+
+        <div class="address-top">
+
+            <div class="address-title">
+
+                <strong>{{ address.full_name }}</strong>
+
+                <span class="address-type">
+                    {{ address.get_address_type_display }}
+                </span>
+
+            </div>
+
+            {% if address.is_default %}
+                <span class="default-badge">
+                    Default
+                </span>
+            {% endif %}
+
+        </div>
+
+
+        <p>
+            {{ address.address_line_1 }}
+            {% if address.address_line_2 %}
+                , {{ address.address_line_2 }}
+            {% endif %}
+        </p>
+
+        <p>
+            {{ address.city }},
+            {{ address.state }}
+            {{ address.postal_code }}
+        </p>
+
+        <p>
+            {{ address.country }}
+        </p>
+
+        {% if address.phone_number %}
+            <p class="address-phone">
+                {{ address.phone_number }}
+            </p>
+        {% endif %}
+
+    </div>
+
+</label>

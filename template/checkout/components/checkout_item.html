@@ -1,0 +1,52 @@
+<div class="checkout-item">
+
+    <div class="checkout-item-image">
+
+        {% if item.variant.primary_image_url %}
+
+            <img
+                src="{{ item.variant.primary_image_url }}"
+                alt="{{ item.variant.product.name }}"
+            >
+
+        {% else %}
+
+            <div class="no-image">
+                No Image
+            </div>
+
+        {% endif %}
+
+    </div>
+
+
+    <div class="checkout-item-info">
+
+        <h3>
+            {{ item.variant.product.name }}
+        </h3>
+
+        <p class="checkout-color">
+            Color: {{ item.variant.color.name }}
+        </p>
+
+        <p class="checkout-quantity">
+            Quantity: {{ item.quantity }}
+        </p>
+
+    </div>
+
+
+    <div class="checkout-item-price">
+
+        <span class="unit-price">
+            ₹{{ item.variant.price }}
+        </span>
+
+        <strong>
+            ₹{{ item.subtotal }}
+        </strong>
+
+    </div>
+
+</div>

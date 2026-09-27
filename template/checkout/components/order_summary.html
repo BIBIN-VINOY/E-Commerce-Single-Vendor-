@@ -1,0 +1,72 @@
+<div class="order-summary">
+
+    <h2>Order Summary</h2>
+
+
+    <div class="summary-row">
+
+        <span>Subtotal</span>
+
+        <span>
+            ₹{{ subtotal }}
+        </span>
+
+    </div>
+
+
+    <div class="summary-row">
+
+        <span>Tax</span>
+
+        <span>
+            ₹{{ tax }}
+        </span>
+
+    </div>
+
+
+    <div class="summary-row">
+
+        <span>Shipping</span>
+
+        <span>
+
+            {% if shipping_cost == 0 %}
+                Free
+            {% else %}
+                ₹{{ shipping_cost }}
+            {% endif %}
+
+        </span>
+
+    </div>
+
+
+    <div class="summary-divider"></div>
+
+
+    <div class="summary-total">
+
+        <span>Total</span>
+
+        <strong>
+            ₹{{ total }}
+        </strong>
+
+    </div>
+
+
+    <button
+        type="submit"
+        class="place-order-btn"
+        id="placeOrderBtn"
+    >
+        Place Order
+    </button>
+
+
+    <p class="secure-checkout">
+        🔒 Secure checkout
+    </p>
+
+</div>

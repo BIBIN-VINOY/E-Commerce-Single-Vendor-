@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Checkout{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/checkout.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<main class="checkout-page">
+
+    <div class="checkout-container">
+
+        <div class="checkout-header">
+            <h1>Checkout</h1>
+
+            <a href="{% url 'cart:cart' %}" class="back-cart">
+                ← Back to Cart
+            </a>
+        </div>
+
+
+        <form
+            method="POST"
+            action="{% url 'checkout:checkout' %}"
+            id="checkoutForm"
+        >
+
+            {% csrf_token %}
+
+            <div class="checkout-layout">
+
+                <!-- ========================= -->
+                <!-- LEFT COLUMN -->
+                <!-- ========================= -->
+
+                <div class="checkout-main">
+
+                    <!-- ADDRESS -->
+                    <section class="checkout-section">
+
+                        <div class="section-heading">
+                            <div>
+                                <span class="section-number">1</span>
+                                <h2>Delivery Address</h2>
+                            </div>
+                        </div>
+
+
+                        {% if addresses %}
+
+                        <div class="address-list">
+
+                            {% for address in addresses %}
+
+                                {% include "checkout/components/address_card.html" %}
+
+                            {% endfor %}
+
+                        </div>
+
+                        {% else %}
+
+                        <div class="no-address">
+
+                            <p>
+                                You don't have any saved addresses.
+                            </p>
+
+                            <a href="{% url 'add_address' %}">
+                                Add Address
+                            </a>
+
+                        </div>
+
+                        {% endif %}
+
+                    </section>
+
+
+                    <!-- ORDER ITEMS -->
+
+                    <section class="checkout-section">
+
+                        <div class="section-heading">
+                            <div>
+                                <span class="section-number">2</span>
+                                <h2>Your Items</h2>
+                            </div>
+
+                            <span class="item-count">
+                                {{ cart_items|length }} item{{ cart_items|length|pluralize }}
+                            </span>
+                        </div>
+
+
+                        <div class="checkout-items">
+
+                            {% for item in cart_items %}
+
+                                {% include "checkout/components/checkout_item.html" %}
+
+                            {% endfor %}
+
+                        </div>
+
+                    </section>
+
+
+                    <!-- PAYMENT -->
+
+                    <section class="checkout-section">
+
+                        <div class="section-heading">
+
+                            <div>
+                                <span class="section-number">3</span>
+                                <h2>Payment Method</h2>
+                            </div>
+
+                        </div>
+
+
+                        {% include "checkout/components/payment_methods.html" %}
+
+                    </section>
+
+
+                    <div class="checkout-error" id="checkoutError"></div>
+
+
+                    <button
+                        type="submit"
+                        class="place-order-mobile"
+                    >
+                        Place Order
+                    </button>
+
+                </div>
+
+
+                <!-- ========================= -->
+                <!-- RIGHT COLUMN -->
+                <!-- ========================= -->
+
+                <aside class="checkout-sidebar">
+
+                    {% include "checkout/components/order_summary.html" %}
+
+                </aside>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</main>
+
+{% endblock %}
+
+
+{% block extra_js %}
+<script src="{% static 'js/checkout.js' %}"></script>
+{% endblock %}

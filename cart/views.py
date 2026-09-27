@@ -36,29 +36,58 @@ def add_to_cart(request, variant_id):
         is_active=True,
     )
 
-    cart_item, created = Cart.objects.get_or_create(
+    # Only allow POST requests
+    if request.method != "POST":
+        return JsonResponse({
+            "success": False,
+            "message": "Invalid request method.",
+        }, status=405)
+
+    # Get quantity sent from frontend
+    try:
+        quantity = int(request.POST.get("quantity", 1))
+    except (TypeError, ValueError):
+        quantity = 1
+
+    # Validate quantity
+    if quantity < 1:
+        return JsonResponse({
+            "success": False,
+            "message": "Quantity must be at least 1.",
+        }, status=400)
+
+    # Check stock
+    if quantity > variant.stock:
+        return JsonResponse({
+            "success": False,
+            "message": f"Only {variant.stock} item(s) are available.",
+        }, status=400)
+
+    # Create or update cart item
+    cart_item, created = Cart.objects.update_or_create(
         user=request.user,
         variant=variant,
+        defaults={
+            "quantity": quantity,
+        },
     )
 
-    if not created:
-
-        if cart_item.quantity < variant.stock:
-            cart_item.quantity += 1
-            cart_item.save()
+    # Calculate cart total
+    cart_items = Cart.objects.filter(
+        user=request.user
+    )
 
     total = sum(
         item.subtotal
-        for item in Cart.objects.filter(user=request.user)
+        for item in cart_items
     )
 
     return JsonResponse({
         "success": True,
         "quantity": cart_item.quantity,
-        "cart_count": Cart.objects.filter(user=request.user).count(),
+        "cart_count": cart_items.count(),
         "total": float(total),
     })
-
 
 @login_required
 def remove_from_cart(request, variant_id):

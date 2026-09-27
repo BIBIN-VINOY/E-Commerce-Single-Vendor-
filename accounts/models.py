@@ -26,11 +26,12 @@ class Address(models.Model):
         ('home', 'Home'),
         ('office', 'Office'),
     )
+
     address_type = models.CharField(
         max_length=10,
         choices=ADDRESS_TYPES,
         default='home'
-    ) 
+    )
 
     user = models.ForeignKey(
         User,
@@ -38,24 +39,43 @@ class Address(models.Model):
         related_name="addresses"
     )
 
+    full_name = models.CharField(
+        max_length=100
+    )
 
-    full_name = models.CharField(max_length=100)
+    phone_number = models.CharField(
+        max_length=20,
+        
+    )
 
-    address_line_1 = models.CharField(max_length=255)
+    address_line_1 = models.CharField(
+        max_length=255
+    )
+
     address_line_2 = models.CharField(
         max_length=255,
         blank=True
     )
 
-    city = models.CharField(max_length=100)
-    state = models.CharField(max_length=100)
-    postal_code = models.CharField(max_length=20)
-    country = models.CharField(max_length=100)
+    city = models.CharField(
+        max_length=100
+    )
 
-    is_default = models.BooleanField(default=False)
+    state = models.CharField(
+        max_length=100
+    )
+
+    postal_code = models.CharField(
+        max_length=20
+    )
+
+    country = models.CharField(
+        max_length=100
+    )
+
+    is_default = models.BooleanField(
+        default=False
+    )
 
     def __str__(self):
         return f"{self.user.username} - {self.address_type}"
-    
-
-

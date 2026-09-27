@@ -27,6 +27,8 @@ urlpatterns = [
     path('product/', include('products.urls')),
     path('wishlist/', include('wishlist.urls')),
     path('cart/', include('cart.urls')),
+    path('orders/', include('orders.urls')),
+    path('checkout/', include('checkout.urls')),
 
     path('reset_password/', auth_views.PasswordResetView.as_view(template_name='account/password_reset.html'), name='reset_password'), #To change the password
 
