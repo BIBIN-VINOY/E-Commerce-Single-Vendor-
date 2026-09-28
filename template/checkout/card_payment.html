@@ -1,0 +1,166 @@
+{% extends "base.html" %} {% load static %} 
+{% block title %} 
+Card Payment 
+{% endblock %} 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/checkout.css' %}" />
+{% endblock %} 
+{% block content %}
+
+<main class="checkout-page">
+  <div class="checkout-container">
+    <div class="checkout-header">
+      <h1>Card Payment</h1>
+
+      <a href="{% url 'checkout:checkout' %}" class="back-cart">
+        ← Back to Checkout
+      </a>
+    </div>
+
+    <div class="checkout-layout">
+      <!-- ================================= -->
+      <!-- CARD FORM -->
+      <!-- ================================= -->
+
+      <div class="checkout-main">
+        <section class="checkout-section">
+          <div class="section-heading">
+            <div>
+              <span class="section-number"> 💳 </span>
+
+              <h2>Credit / Debit Card</h2>
+            </div>
+          </div>
+
+          <form method="POST" id="cardPaymentForm">
+            {% csrf_token %}
+
+            <!-- CARD HOLDER -->
+
+            <div class="form-group">
+              <label for="card_holder"> Card Holder Name </label>
+
+              <input
+                type="text"
+                id="card_holder"
+                name="card_holder"
+                placeholder="Name on card"
+                autocomplete="cc-name"
+                required
+              />
+            </div>
+
+            <!-- CARD NUMBER -->
+
+            <div class="form-group">
+              <label for="card_number"> Card Number </label>
+
+              <input
+                type="text"
+                id="card_number"
+                name="card_number"
+                placeholder="1234 5678 9012 3456"
+                maxlength="19"
+                inputmode="numeric"
+                autocomplete="cc-number"
+                required
+              />
+            </div>
+
+            <!-- EXPIRY + CVV -->
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="expiry"> Expiry Date </label>
+
+                <input
+                  type="text"
+                  id="expiry"
+                  name="expiry"
+                  placeholder="MM/YY"
+                  maxlength="5"
+                  inputmode="numeric"
+                  autocomplete="cc-exp"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="cvv"> CVV </label>
+
+                <input
+                  type="password"
+                  id="cvv"
+                  name="cvv"
+                  placeholder="123"
+                  maxlength="4"
+                  inputmode="numeric"
+                  autocomplete="cc-csc"
+                  required
+                />
+              </div>
+            </div>
+
+            <!-- PAYMENT BUTTON -->
+
+            <div class="card-payment-actions">
+              <button type="submit" class="proceed-payment-btn">
+                Proceed to Payment
+                <span>₹{{ total }}</span>
+              </button>
+            </div>
+          </form>
+        </section>
+
+        <!-- SECURITY MESSAGE -->
+
+        <section class="checkout-section">
+          <p>🔒 Your payment information is securely processed.</p>
+
+          <p>We never store your complete card number or CVV.</p>
+        </section>
+      </div>
+
+      <!-- ================================= -->
+      <!-- ORDER SUMMARY -->
+      <!-- ================================= -->
+
+      <aside class="checkout-sidebar">
+        <div class="order-summary">
+          <h2>Order Summary</h2>
+
+          <div class="summary-row">
+            <span> Subtotal </span>
+
+            <span> ₹{{ subtotal }} </span>
+          </div>
+
+          <div class="summary-row">
+            <span> Tax </span>
+
+            <span> ₹{{ tax }} </span>
+          </div>
+
+          <div class="summary-row">
+            <span> Shipping </span>
+
+            <span>
+              {% if shipping_cost == 0 %} FREE {% else %} ₹{{ shipping_cost }}
+              {% endif %}
+            </span>
+          </div>
+
+          <hr />
+
+          <div class="summary-row total">
+            <strong> Total </strong>
+
+            <strong> ₹{{ total }} </strong>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+</main>
+
+{% endblock %}

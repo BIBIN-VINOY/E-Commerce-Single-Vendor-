@@ -1,0 +1,197 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Track Order
+{% endblock %}
+
+{% block content %}
+
+<main class="orders-page">
+
+    <div class="orders-container">
+
+        <div class="orders-header">
+
+            <div>
+
+                <h1>
+                    Track Order
+                </h1>
+
+                <p>
+                    Order #{{ order.id }}
+                </p>
+
+            </div>
+
+
+            <a
+                href="{% url 'orders:order_detail' order.id %}"
+            >
+                ← Order Details
+            </a>
+
+        </div>
+
+
+        <!-- ========================================= -->
+        <!-- CANCELLED -->
+        <!-- ========================================= -->
+
+        {% if order.status == "cancelled" %}
+
+            <section class="tracking-card cancelled">
+
+                <div class="tracking-icon">
+                    ❌
+                </div>
+
+                <h2>
+                    Order Cancelled
+                </h2>
+
+                <p>
+                    This order has been cancelled.
+                </p>
+
+            </section>
+
+
+        {% else %}
+
+
+            <!-- ===================================== -->
+            <!-- TRACKING -->
+            <!-- ===================================== -->
+
+            <section class="tracking-card">
+
+                <h2>
+                    Order Status
+                </h2>
+
+
+                <div class="tracking-timeline">
+
+                    {% for step in tracking_steps %}
+
+                        <div
+                            class="
+                                tracking-step
+                                {% if step.completed %}
+                                    completed
+                                {% endif %}
+
+                                {% if step.current %}
+                                    current
+                                {% endif %}
+                            "
+                        >
+
+                            <div class="tracking-dot">
+
+                                {% if step.completed %}
+                                    ✓
+                                {% else %}
+                                    {{ forloop.counter }}
+                                {% endif %}
+
+                            </div>
+
+
+                            <div class="tracking-content">
+
+                                <h3>
+                                    {{ step.label }}
+                                </h3>
+
+                                <p>
+                                    {{ step.description }}
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+            </section>
+
+        {% endif %}
+
+
+        <!-- ========================================= -->
+        <!-- ORDER INFORMATION -->
+        <!-- ========================================= -->
+
+        <section class="tracking-card">
+
+            <h2>
+                Order Information
+            </h2>
+
+
+            <div class="tracking-info">
+
+                <div>
+
+                    <span>
+                        Order Date
+                    </span>
+
+                    <strong>
+                        {{ order.created_at|date:"d M Y, h:i A" }}
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        Payment
+                    </span>
+
+                    <strong>
+                        {{ order.get_payment_method_display }}
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        Payment Status
+                    </span>
+
+                    <strong>
+                        {{ order.get_payment_status_display }}
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        Total
+                    </span>
+
+                    <strong>
+                        ₹{{ order.total_amount }}
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </div>
+
+</main>
+
+{% endblock %}

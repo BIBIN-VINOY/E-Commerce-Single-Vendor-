@@ -217,16 +217,36 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 12px;
     padding: 16px 22px;
     border-top: 1px solid #eee;
     color: #777;
     font-size: 13px;
 }
 
+.order-card-footer > span {
+    flex-shrink: 0;
+}
+
 .view-order-btn {
+    display: inline-flex;
+    align-items: center;
     text-decoration: none;
     color: #111;
     font-weight: 600;
+}
+
+.order-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-left: auto;
+}
+
+.order-actions form {
+    margin: 0;
 }
 
 
@@ -571,6 +591,14 @@
 
     .order-card-footer {
         padding: 14px 15px;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .order-actions {
+        width: 100%;
+        justify-content: flex-start;
+        margin-left: 0;
     }
 
     .order-section {
@@ -594,4 +622,42 @@
         overflow-x: auto;
         min-width: 500px;
     }
+}
+
+
+.track-order-btn,
+.cancel-order-btn,
+.delete-order-btn,
+.view-order-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: 8px;
+    padding: 9px 14px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.track-order-btn {
+    background: #f1f1f1;
+    color: #222;
+}
+
+.cancel-order-btn {
+    background: #fff3f3;
+    color: #c62828;
+}
+
+.delete-order-btn {
+    background: #f5f5f5;
+    color: #555;
+}
+
+.track-order-btn:hover,
+.cancel-order-btn:hover,
+.delete-order-btn:hover {
+    opacity: 0.85;
 }
