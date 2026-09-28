@@ -1,8 +1,13 @@
+/* =========================
+   PAGE LAYOUT
+========================= */
+
 .orders-page,
 .order-detail-page {
     min-height: 100vh;
     background: #f7f7f7;
-    padding: 40px 20px 80px;
+    /* extra bottom padding so the fixed bottom nav never covers content */
+    padding: 40px 20px 120px;
 }
 
 .orders-container,
@@ -53,6 +58,41 @@
 
 
 /* =========================
+   MESSAGES
+========================= */
+
+.orders-messages {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.order-message {
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    background: #e8f1ff;
+    color: #245ea8;
+}
+
+.order-message.success {
+    background: #e3f6e8;
+    color: #1f7137;
+}
+
+.order-message.error {
+    background: #ffe8e8;
+    color: #a52b2b;
+}
+
+.order-message.warning {
+    background: #fff4d6;
+    color: #8a6500;
+}
+
+
+/* =========================
    ORDER CARD
 ========================= */
 
@@ -87,17 +127,38 @@
     font-size: 14px;
 }
 
+.order-card-header .order-date {
+    color: #777;
+    font-size: 13px;
+}
+
 
 /* =========================
    STATUS
 ========================= */
 
-.status-badge {
+.order-status-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 22px;
+    border-bottom: 1px solid #eee;
+}
+
+.status-label {
+    color: #888;
+    font-size: 12px;
+}
+
+.status-badge,
+.order-status {
     display: inline-block;
     padding: 6px 10px;
     border-radius: 20px;
     font-size: 12px;
     font-weight: 600;
+    background: #f1f1f1;
+    color: #555;
 }
 
 .status-pending {
@@ -132,7 +193,68 @@
 
 
 /* =========================
-   ORDER INFO
+   ORDER ITEMS (LIST PAGE)
+========================= */
+
+.order-items {
+    display: flex;
+    flex-direction: column;
+    padding: 6px 22px;
+}
+
+.order-item {
+    display: grid;
+    grid-template-columns: 70px 1fr auto;
+    align-items: center;
+    gap: 15px;
+    padding: 14px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.order-item:last-child {
+    border-bottom: none;
+}
+
+.order-item-image {
+    width: 70px;
+    height: 70px;
+}
+
+.order-item-image img,
+.order-item-image .image-placeholder {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+    background: #f1f1f1;
+}
+
+.order-item-image .image-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+}
+
+.order-item-info h3 {
+    margin: 0 0 6px;
+    font-size: 15px;
+}
+
+.order-item-info p {
+    margin: 3px 0;
+    color: #777;
+    font-size: 13px;
+}
+
+.order-item-price {
+    font-size: 15px;
+    font-weight: 600;
+}
+
+
+/* =========================
+   OLD LIST LAYOUT (kept for compatibility)
 ========================= */
 
 .order-info {
@@ -156,11 +278,6 @@
 .order-info-item strong {
     font-size: 14px;
 }
-
-
-/* =========================
-   PRODUCTS
-========================= */
 
 .order-products {
     display: flex;
@@ -228,12 +345,17 @@
     flex-shrink: 0;
 }
 
-.view-order-btn {
-    display: inline-flex;
-    align-items: center;
-    text-decoration: none;
+.order-total {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    color: #777;
+    font-size: 13px;
+}
+
+.order-total strong {
     color: #111;
-    font-weight: 600;
+    font-size: 18px;
 }
 
 .order-actions {
@@ -251,10 +373,61 @@
 
 
 /* =========================
-   EMPTY
+   BUTTONS
 ========================= */
 
-.empty-orders {
+.order-btn,
+.track-order-btn,
+.cancel-order-btn,
+.delete-order-btn,
+.view-order-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: 8px;
+    padding: 9px 14px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.order-btn {
+    background: #111;
+    color: #fff;
+}
+
+.track-order-btn {
+    background: #f1f1f1;
+    color: #222;
+}
+
+.cancel-order-btn {
+    background: #fff3f3;
+    color: #c62828;
+}
+
+.delete-order-btn {
+    background: #f5f5f5;
+    color: #555;
+}
+
+.order-btn:hover,
+.track-order-btn:hover,
+.cancel-order-btn:hover,
+.delete-order-btn:hover {
+    opacity: 0.85;
+}
+
+
+/* =========================
+   EMPTY STATE
+========================= */
+
+.empty-orders,
+.no-orders {
     background: white;
     border: 1px solid #e5e5e5;
     border-radius: 12px;
@@ -262,21 +435,25 @@
     text-align: center;
 }
 
-.empty-orders-icon {
+.empty-orders-icon,
+.no-orders-icon {
     font-size: 45px;
     margin-bottom: 15px;
 }
 
-.empty-orders h2 {
+.empty-orders h2,
+.no-orders h2 {
     margin: 0 0 8px;
 }
 
-.empty-orders p {
+.empty-orders p,
+.no-orders p {
     color: #777;
     margin-bottom: 25px;
 }
 
-.shop-now-btn {
+.shop-now-btn,
+.no-orders a {
     display: inline-block;
     background: #111;
     color: white;
@@ -313,11 +490,6 @@
     gap: 20px;
     height: fit-content;
 }
-
-
-/* =========================
-   SECTIONS
-========================= */
 
 .order-section {
     background: white;
@@ -395,7 +567,7 @@
 
 
 /* =========================
-   ORDER ITEMS DETAIL
+   ORDER ITEMS (DETAIL PAGE)
 ========================= */
 
 .detail-items {
@@ -562,7 +734,7 @@
 
     .orders-page,
     .order-detail-page {
-        padding: 25px 12px 60px;
+        padding: 25px 12px 120px;
     }
 
     .orders-header,
@@ -576,17 +748,32 @@
         font-size: 25px;
     }
 
-    .order-card-header {
-        padding: 15px;
+    .order-card-header,
+    .order-status-row {
+        padding: 14px 15px;
     }
 
-    .order-info {
-        padding: 15px;
-        gap: 15px;
+    .order-items {
+        padding: 4px 15px;
     }
 
+    .order-item {
+        grid-template-columns: 60px 1fr;
+    }
+
+    .order-item-image {
+        width: 60px;
+        height: 60px;
+    }
+
+    .order-item-price {
+        grid-column: 2;
+    }
+
+    .order-info,
     .order-products {
         padding: 15px;
+        gap: 15px;
     }
 
     .order-card-footer {
@@ -622,42 +809,4 @@
         overflow-x: auto;
         min-width: 500px;
     }
-}
-
-
-.track-order-btn,
-.cancel-order-btn,
-.delete-order-btn,
-.view-order-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    border: none;
-    border-radius: 8px;
-    padding: 9px 14px;
-    font-size: 14px;
-    font-weight: 600;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-.track-order-btn {
-    background: #f1f1f1;
-    color: #222;
-}
-
-.cancel-order-btn {
-    background: #fff3f3;
-    color: #c62828;
-}
-
-.delete-order-btn {
-    background: #f5f5f5;
-    color: #555;
-}
-
-.track-order-btn:hover,
-.cancel-order-btn:hover,
-.delete-order-btn:hover {
-    opacity: 0.85;
 }

@@ -14,7 +14,7 @@
         <span>Wishlist</span>
     </a>
     {% if user.is_authenticated %}
-    <a href="#">
+    <a href="{% url 'orders:order_list' %}">
         📦
         <span>Orders</span>
     </a>
