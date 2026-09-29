@@ -56,6 +56,25 @@
     border-radius: 8px;
 }
 
+.orders-header a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 16px;
+    border-radius: 999px;
+    background: #f5f5f5;
+    border: 1px solid #e8e8e8;
+    color: #222;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.orders-header a:hover {
+    background: #ececec;
+    transform: translateY(-1px);
+}
+
 
 /* =========================
    MESSAGES
@@ -517,6 +536,166 @@
 
 
 /* =========================
+   TRACKING PAGE
+========================= */
+
+.tracking-card {
+    background: white;
+    border: 1px solid #e6e6e6;
+    border-radius: 18px;
+    padding: 24px;
+    box-shadow: 0 10px 30px rgba(17, 17, 17, 0.04);
+}
+
+.tracking-card + .tracking-card {
+    margin-top: 22px;
+}
+
+.tracking-card.cancelled {
+    background: linear-gradient(135deg, #fff7f7 0%, #fff 100%);
+    border-color: #ffd7d7;
+}
+
+.tracking-card h2 {
+    margin: 0 0 20px;
+    font-size: 22px;
+}
+
+.tracking-icon {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-size: 30px;
+    background: #fff1f1;
+    color: #d83737;
+    margin-bottom: 16px;
+}
+
+.tracking-card.cancelled h2 {
+    color: #a93737;
+}
+
+.tracking-card.cancelled p {
+    margin: 0;
+    color: #6f4040;
+    line-height: 1.6;
+}
+
+.tracking-timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    position: relative;
+    padding-top: 8px;
+}
+
+.tracking-timeline::before {
+    content: "";
+    position: absolute;
+    left: 17px;
+    top: 10px;
+    bottom: 10px;
+    width: 2px;
+    background: linear-gradient(to bottom, #dfe3eb, #e8e8e8);
+}
+
+.tracking-step {
+    position: relative;
+    display: grid;
+    grid-template-columns: 36px 1fr;
+    gap: 16px;
+    align-items: flex-start;
+}
+
+.tracking-dot {
+    position: relative;
+    z-index: 1;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: #f0f0f0;
+    border: 4px solid white;
+    box-shadow: 0 0 0 1px #e7e7e7;
+    color: #606060;
+    font-weight: 700;
+    font-size: 13px;
+}
+
+.tracking-step.completed .tracking-dot {
+    background: #111;
+    color: white;
+    box-shadow: 0 0 0 1px #111;
+}
+
+.tracking-step.current .tracking-dot {
+    background: #e8f1ff;
+    color: #245ea8;
+    box-shadow: 0 0 0 2px rgba(36, 94, 168, 0.12);
+}
+
+.tracking-content {
+    background: #fafafa;
+    border: 1px solid #efefef;
+    border-radius: 12px;
+    padding: 14px 16px;
+}
+
+.tracking-step.completed .tracking-content {
+    background: #f3faf5;
+    border-color: #dbf0e1;
+}
+
+.tracking-step.current .tracking-content {
+    background: #f2f7ff;
+    border-color: #dfeafc;
+}
+
+.tracking-content h3 {
+    margin: 0 0 6px;
+    font-size: 16px;
+}
+
+.tracking-content p {
+    margin: 0;
+    color: #666;
+    line-height: 1.6;
+    font-size: 14px;
+}
+
+.tracking-info {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px 20px;
+}
+
+.tracking-info > div {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    background: #fafafa;
+    border: 1px solid #efefef;
+    border-radius: 12px;
+    padding: 14px 16px;
+}
+
+.tracking-info span {
+    color: #7a7a7a;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.tracking-info strong {
+    font-size: 15px;
+    color: #161616;
+}
+
+
+/* =========================
    TIMELINE
 ========================= */
 
@@ -790,6 +969,18 @@
 
     .order-section {
         padding: 18px;
+    }
+
+    .tracking-card {
+        padding: 18px;
+    }
+
+    .tracking-info {
+        grid-template-columns: 1fr;
+    }
+
+    .orders-header a {
+        width: 100%;
     }
 
     .detail-item {

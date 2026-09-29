@@ -1,8 +1,16 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block title %}
     Track Order
 {% endblock %}
+
+{% block extra_css %}
+    
+    <link rel="stylesheet" href="{% static 'css/orders.css' %}">
+{% endblock %}
+
+
 
 {% block content %}
 

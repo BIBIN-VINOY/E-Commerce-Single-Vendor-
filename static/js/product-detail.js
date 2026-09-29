@@ -25,6 +25,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const primaryImagePlaceholder =
     document.getElementById("primaryImagePlaceholder");
+  
+  const productPriceEl =
+    document.getElementById("productPrice");
 
   const galleryEl =
     document.getElementById("galleryThumbnails");
@@ -147,6 +150,11 @@ document.addEventListener("DOMContentLoaded", function () {
     --------------------------------------------------------- */
 
     const inStock = data.stock > 0;
+
+    if (productPriceEl) {
+    productPriceEl.textContent =
+        `₹${data.price}`;
+    }
 
     if (stockStatusEl) {
 

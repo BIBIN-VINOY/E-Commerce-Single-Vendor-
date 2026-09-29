@@ -12,6 +12,7 @@ from products.models import Product
 
 def user_dashboard(request):
     featured_products = Product.objects.filter(status="published", is_deleted=False, is_featured=True)
+    
     context = {"featured_products": featured_products}
     
     return render(request, 'dashboard.html', context)
