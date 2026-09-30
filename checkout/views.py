@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from django.shortcuts import get_object_or_404, redirect, render
-
+from notification.signals import create_notification
 from accounts.models import Address
 from cart.models import Cart
 from orders.models import Order, OrderItem
@@ -445,6 +445,17 @@ def checkout(request):
                 return redirect(
                     "cart:cart"
                 )
+
+            create_notification(
+                user=request.user,
+                order=order,
+                notification_type="order_placed",
+                title="Order Placed",
+                message=(
+                    f"Your order #{str(order.id)[:8]} "
+                    "has been placed successfully."
+                ),
+)
 
             messages.success(
                 request,

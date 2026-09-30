@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+    Notifications
+{% endblock %}
+
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/notifications.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<main class="notifications-page">
+
+    <div class="notifications-container">
+
+        <div class="notifications-header">
+
+            <div>
+                <h1>Notifications</h1>
+
+                <p>
+                    Stay updated with your orders.
+                </p>
+            </div>
+
+
+            {% if notifications %}
+
+                <form
+                    method="POST"
+                    action="{% url 'notifications:mark_all_read' %}"
+                >
+
+                    {% csrf_token %}
+
+                    <button type="submit">
+                        Mark all as read
+                    </button>
+
+                </form>
+
+            {% endif %}
+
+        </div>
+
+
+        {% if notifications %}
+
+            <div class="notifications-list">
+
+                {% for notification in notifications %}
+
+                    <a
+                        href="{% url 'notifications:mark_as_read' notification.id %}"
+                        class="
+                            notification-item
+                            {% if not notification.is_read %}
+                                unread
+                            {% endif %}
+                        "
+                    >
+
+                        <div class="notification-icon">
+
+                            {% if notification.notification_type == "order_placed" %}
+                                🛍️
+
+                            {% elif notification.notification_type == "order_cancelled" %}
+                                ❌
+
+                            {% elif notification.notification_type == "order_deleted" %}
+                                🗑️
+
+                            {% else %}
+                                🔔
+                            {% endif %}
+
+                        </div>
+
+
+                        <div class="notification-content">
+
+                            <strong>
+                                {{ notification.title }}
+                            </strong>
+
+                            <p>
+                                {{ notification.message }}
+                            </p>
+
+                            <small>
+                                {{ notification.created_at|date:"d M Y, h:i A" }}
+                            </small>
+
+                        </div>
+
+
+                        {% if not notification.is_read %}
+
+                            <span class="unread-dot"></span>
+
+                        {% endif %}
+
+                    </a>
+
+                {% endfor %}
+
+            </div>
+
+        {% else %}
+
+            <div class="no-notifications">
+
+                <div>
+                    🔔
+                </div>
+
+                <h2>
+                    No notifications
+                </h2>
+
+                <p>
+                    You're all caught up.
+                </p>
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</main>
+
+{% endblock %}

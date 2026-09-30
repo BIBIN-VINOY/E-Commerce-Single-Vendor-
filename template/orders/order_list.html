@@ -1,280 +1,213 @@
-{% extends "base.html" %}
-{% load static %}
-
-{% block title %}
-    My Orders
-{% endblock %}
-
+{% extends "base.html" %} 
+{% load static %} 
+{% block title %} 
+My Orders 
+{%endblock %} 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/orders.css' %}">
-{% endblock%}
-
+<link rel="stylesheet" href="{% static 'css/orders.css' %}" />
+{% endblock %} 
 {% block content %}
 
 <main class="orders-page">
-
-    <div class="orders-container">
-
-        <!-- ========================================= -->
-        <!-- HEADER -->
-        <!-- ========================================= -->
-
-        <div class="orders-header">
-
-            <div>
-                <h1>My Orders</h1>
-
-                <p>
-                    View and track your orders
-                </p>
-            </div>
-
-        </div>
-
-
-        <!-- ========================================= -->
-        <!-- MESSAGES -->
-        <!-- ========================================= -->
-
-        {% if messages %}
-
-            <div class="orders-messages">
-
-                {% for message in messages %}
-
-                    <div class="order-message {{ message.tags }}">
-                        {{ message }}
-                    </div>
-
-                {% endfor %}
-
-            </div>
-
-        {% endif %}
-
-
-        <!-- ========================================= -->
-        <!-- NO ORDERS -->
-        <!-- ========================================= -->
-
-        {% if not orders %}
-
-            <section class="no-orders">
-
-                <div class="no-orders-icon">
-                    📦
-                </div>
-
-                <h2>No Orders Yet</h2>
-
-                <p>
-                    You haven't placed any orders yet.
-                </p>
-
-                <a href="{% url 'products:home' %}">
-                    Continue Shopping
-                </a>
-
-            </section>
-
-        {% else %}
-
-
-            <!-- ===================================== -->
-            <!-- ORDER LIST -->
-            <!-- ===================================== -->
-
-            <div class="orders-list">
-
-                {% for order in orders %}
-
-                    <article class="order-card">
-
-                        <!-- ========================== -->
-                        <!-- ORDER HEADER -->
-                        <!-- ========================== -->
-
-                        <div class="order-card-header">
-
-                            <div>
-
-                                <span class="order-label">
-                                    Order
-                                </span>
-
-                                <strong class="order-id">
-                                    #{{ order.id }}
-                                </strong>
-
-                            </div>
-
-
-                            <div class="order-date">
-
-                                {{ order.created_at|date:"d M Y" }}
-
-                            </div>
-
-                        </div>
-
-
-                        <!-- ========================== -->
-                        <!-- ORDER STATUS -->
-                        <!-- ========================== -->
-
-                        <div class="order-status-row">
-
-                            <span class="status-label">
-                                Status
-                            </span>
-
-                            <span
-                                class="order-status status-{{ order.status }}"
-                            >
-                                {{ order.get_status_display }}
-                            </span>
-
-                        </div>
-
-
-                        <!-- ========================== -->
-                        <!-- ORDER ITEMS -->
-                        <!-- ========================== -->
-
-                        <div class="order-items">
-
-                            {% for item in order.items.all %}
-
-                                <div class="order-item">
-
-                                    <div class="order-item-image">
-
-                                        {% if item.image_url %}
-
-                                            <img
-                                                src="{{ item.image_url }}"
-                                                alt="{{ item.product_name }}"
-                                            >
-
-                                        {% else %}
-
-                                            <div>
-                                                📦
-                                            </div>
-
-                                        {% endif %}
-
-                                    </div>
-
-
-                                    <div class="order-item-info">
-
-                                        <h3>
-                                            {{ item.product_name }}
-                                        </h3>
-
-                                        <p>
-                                            Color:
-                                            {{ item.color_name }}
-                                        </p>
-
-                                        <p>
-                                            Quantity:
-                                            {{ item.quantity }}
-                                        </p>
-
-                                    </div>
-
-
-                                    <div class="order-item-price">
-
-                                        ₹{{ item.subtotal }}
-
-                                    </div>
-
-                                </div>
-
-                            {% endfor %}
-
-                        </div>
-
-
-                        <!-- ========================== -->
-                        <!-- ORDER FOOTER -->
-                        <!-- ========================== -->
-
-                        <div class="order-card-footer">
-
-                            <div class="order-total">
-
-                                <span>
-                                    Total
-                                </span>
-
-                                <strong>
-                                    ₹{{ order.total_amount }}
-                                </strong>
-
-                            </div>
-
-
-                            <div class="order-actions">
-
-                                <a
-                                    href="{% url 'orders:order_detail' order.id %}"
-                                    class="order-btn"
-                                >
-                                    View Order
-                                </a>
-
-
-                                {% if order.status != "cancelled" and order.status != "delivered" %}
-
-                                    <a
-                                        href="{% url 'orders:order_tracking' order.id %}"
-                                        class="order-btn"
-                                    >
-                                        Track Order
-                                    </a>
-
-                                {% endif %}
-
-
-                                {% if order.status == "cancelled" %}
-
-                                    <form
-                                        method="POST"
-                                        action="{% url 'orders:delete_order' order.id %}"
-                                        onsubmit="return confirm('Remove this order from your order history?');"
-                                    >
-
-                                        {% csrf_token %}
-
-                                        <button
-                                            type="submit"
-                                            class="order-btn delete-order-btn"
-                                        >
-                                            Delete
-                                        </button>
-
-                                    </form>
-
-                                {% endif %}
-
-                            </div>
-
-                        </div>
-
-                    </article>
-
-                {% endfor %}
-
-            </div>
-
-        {% endif %}
-
+  <div class="orders-container">
+    <!-- ========================================= -->
+    <!-- HEADER -->
+    <!-- ========================================= -->
+
+    <div class="orders-header">
+      <div>
+        <h1>My Orders</h1>
+
+        <p>View and track your orders</p>
+      </div>
     </div>
 
+    <!-- ========================================= -->
+    <!-- MESSAGES -->
+    <!-- ========================================= -->
+
+    {% if messages %}
+
+    <div class="orders-messages">
+      {% for message in messages %}
+
+      <div class="order-message {{ message.tags }}">{{ message }}</div>
+
+      {% endfor %}
+    </div>
+
+    {% endif %}
+
+    <!-- ========================================= -->
+    <!-- NO ORDERS -->
+    <!-- ========================================= -->
+
+    {% if not orders %}
+
+    <section class="no-orders">
+      <div class="no-orders-icon">📦</div>
+
+      <h2>No Orders Yet</h2>
+
+      <p>You haven't placed any orders yet.</p>
+
+      <a href="{% url 'products:home' %}"> Continue Shopping </a>
+    </section>
+
+    {% else %}
+
+    <!-- ===================================== -->
+    <!-- ORDER LIST -->
+    <!-- ===================================== -->
+
+    <div class="orders-list">
+      {% for order in orders %}
+
+      <article class="order-card">
+        <!-- ========================== -->
+        <!-- ORDER HEADER -->
+        <!-- ========================== -->
+
+        <div class="order-card-header">
+          <div>
+            <span class="order-label"> Order </span>
+
+            <strong class="order-id"> #{{ order.id }} </strong>
+          </div>
+
+          <div class="order-date">{{ order.created_at|date:"d M Y" }}</div>
+        </div>
+
+        <!-- ========================== -->
+        <!-- ORDER STATUS -->
+        <!-- ========================== -->
+
+        <div class="order-status-row">
+          <span class="status-label"> Status </span>
+
+          <span class="order-status status-{{ order.status }}">
+            {{ order.get_status_display }}
+          </span>
+        </div>
+
+        <!-- ========================== -->
+        <!-- ORDER ITEMS -->
+        <!-- ========================== -->
+
+        <div class="order-items">
+          {% for item in order.items.all %}
+
+          <div class="order-item">
+            <div class="order-item-image">
+              {% if item.image_url %}
+
+              <img src="{{ item.image_url }}" alt="{{ item.product_name }}" />
+
+              {% else %}
+
+              <div>📦</div>
+
+              {% endif %}
+            </div>
+
+            <div class="order-item-info">
+              <h3>{{ item.product_name }}</h3>
+
+              <p>Color: {{ item.color_name }}</p>
+
+              <p>Quantity: {{ item.quantity }}</p>
+            </div>
+
+            <div class="order-item-price">₹{{ item.subtotal }}</div>
+          </div>
+
+          {% endfor %}
+        </div>
+
+        <!-- ========================== -->
+        <!-- ORDER FOOTER -->
+        <!-- ========================== -->
+
+        <div class="order-card-footer">
+          <div class="order-total">
+            <span> Total </span>
+
+            <strong> ₹{{ order.total_amount }} </strong>
+          </div>
+
+          <!--OREDR ACTIONS-->
+          <div class="order-actions">
+            <!-- View Order -->
+
+            <a
+              href="{% url 'orders:order_detail' order.id %}"
+              class="order-btn"
+            >
+              View Order
+            </a>
+
+            <!-- Track Order -->
+
+            {% if order.status != "cancelled" %}
+
+            <a
+              href="{% url 'orders:order_tracking' order.id %}"
+              class="order-btn"
+            >
+              Track Order
+            </a>
+
+            {% endif %}
+
+            <!-- Cancel Order -->
+
+            {% if order.status == "pending" or order.status == "confirmed" or order.status == "processing" %}
+
+            <form
+              method="POST"
+              action="{% url 'orders:cancel_order' order.id %}"
+              onsubmit="
+                return confirm('Are you sure you want to cancel this order?');
+              "
+            >
+              {% csrf_token %}
+
+              <button type="submit" class="order-btn cancel-order-btn">
+                Cancel Order
+              </button>
+            </form>
+
+            {% endif %}
+
+            <!-- Delete Cancelled Order -->
+
+            {% if order.status == "cancelled" %}
+
+            <form
+              method="POST"
+              action="{% url 'orders:delete_order' order.id %}"
+              onsubmit="
+                return confirm('Remove this order from your order history?');
+              "
+            >
+              {% csrf_token %}
+
+              <button type="submit" class="order-btn delete-order-btn">
+                Delete
+              </button>
+            </form>
+
+            {% endif %}
+          </div>
+          <!--ORDER ACTIONS-->
+        </div>
+      </article>
+
+      {% endfor %}
+    </div>
+
+    {% endif %}
+  </div>
 </main>
 
 {% endblock %}

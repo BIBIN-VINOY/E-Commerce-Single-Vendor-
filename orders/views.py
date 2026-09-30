@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from django.shortcuts import get_object_or_404, redirect, render
-
+from notification.signals import create_notification
 from .models import Order
 
 
@@ -198,6 +198,18 @@ def cancel_order(request, order_id):
             ]
         )
 
+    create_notification(
+    user=request.user,
+    order=order,
+    notification_type="order_cancelled",
+    title="Order Cancelled",
+    message=(
+        f"Your order #{str(order.id)[:8]} "
+        "has been cancelled successfully."
+    ),
+    )
+
+
     messages.success(
         request,
         "Your order has been cancelled successfully.",
@@ -217,19 +229,13 @@ def cancel_order(request, order_id):
 def delete_order(request, order_id):
 
     if request.method != "POST":
-        return redirect(
-            "orders:order_list"
-        )
+        return redirect("orders:order_list")
 
     order = get_object_or_404(
         Order,
         id=order_id,
         user=request.user,
     )
-
-    # --------------------------------------------------------
-    # Only cancelled orders can be removed
-    # --------------------------------------------------------
 
     if order.status != "cancelled":
 
@@ -238,9 +244,20 @@ def delete_order(request, order_id):
             "Only cancelled orders can be removed from your order history.",
         )
 
-        return redirect(
-            "orders:order_list"
-        )
+        return redirect("orders:order_list")
+
+    order_reference = str(order.id)[:8]
+
+    create_notification(
+        user=request.user,
+        order=order,
+        notification_type="order_deleted",
+        title="Order Removed",
+        message=(
+            f"Order #{order_reference} "
+            "has been removed from your order history."
+        ),
+    )
 
     order.delete()
 
