@@ -3,3 +3,29 @@ env_ecommerce/
 production_images
 building.txt
 .env
+
+__pycache__/
+*.pyc
+
+# Python
+__pycache__/
+*.py[cod]
+
+# Virtual Environment
+env/
+venv/
+
+
+# Database
+db.sqlite3
+
+
+
+# Static/media (if generated)
+media/
+
+# VS Code
+.vscode/
+
+# PyCharm
+.idea/

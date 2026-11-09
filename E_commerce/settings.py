@@ -12,9 +12,14 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 
 from pathlib import Path
 import os
+from datetime import timedelta
+from dotenv import load_dotenv
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+load_dotenv(BASE_DIR / '.env')
 
 
 # Quick-start development settings - unsuitable for production
@@ -63,6 +68,46 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+SIMPLE_JWT = {
+
+    # Access token configuration
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=15),
+
+    # Refresh token configuration
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
+
+    # Refresh token rotation
+    'ROTATE_REFRESH_TOKENS': True,
+
+    # Blacklist old refresh token after rotation
+    'BLACKLIST_AFTER_ROTATION': True,
+
+    # Token algorithm
+    'ALGORITHM': 'HS256',
+
+    # Signing key
+    'SIGNING_KEY': SECRET_KEY,
+
+    # Authorization header
+    'AUTH_HEADER_TYPES': ('Bearer',),
+
+}
+
+REST_FRAMEWORK = {
+
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
+
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
+    ],
+
+}
 
 ROOT_URLCONF = 'E_commerce.urls'
 
@@ -131,8 +176,8 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'bibinvinoy023@gmail.com'
-EMAIL_HOST_PASSWORD = 'kjvu ghap edwv vidb'
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 
 
 # Static files (CSS, JavaScript, Images)
