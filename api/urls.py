@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import include, path
 from .views import ProtectedTestView
 
 from rest_framework_simplejwt.views import (
@@ -36,5 +36,10 @@ urlpatterns = [
     ProtectedTestView.as_view(),
     name='protected_test'
 ),
+
+path(
+    'accounts/',
+    include('accounts.api_urls')
+)
 
 ]
