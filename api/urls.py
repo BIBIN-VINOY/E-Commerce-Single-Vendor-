@@ -42,9 +42,12 @@ path(
     include('accounts.api_urls')
 ),
 
- path(
+path(
         'products/',
         include('products.api_urls')
     ),
+
+path('cart/', include('cart.api_urls')),
+path('wishlist/', include('wishlist.api_urls')),
 
 ]
