@@ -50,4 +50,9 @@ path(
 path('cart/', include('cart.api_urls')),
 path('wishlist/', include('wishlist.api_urls')),
 
+path(
+        "orders/",
+        include("orders.api_urls"),
+    ),
+
 ]
